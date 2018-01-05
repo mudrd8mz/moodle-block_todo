@@ -84,4 +84,23 @@ class block_todo_external_testcase extends advanced_testcase {
         $items = block_todo\item::get_my_todo_items();
         $this->assertEquals(1, count($items));
     }
+
+    /**
+     * Test that the done status of an item can be toggled.
+     */
+    public function test_toggle_item() {
+
+        $todotext = 'Write a unit test';
+        $raw = block_todo\external\api::add_item($todotext);
+        $result = external_api::clean_returnvalue(block_todo\external\api::add_item_returns(), $raw);
+        $this->assertSame($result['done'], false);
+
+        $raw = block_todo\external\api::toggle_item($result['id']);
+        $result = external_api::clean_returnvalue(block_todo\external\api::toggle_item_returns(), $raw);
+        $this->assertSame($result['done'], true);
+
+        $raw = block_todo\external\api::toggle_item($result['id']);
+        $result = external_api::clean_returnvalue(block_todo\external\api::toggle_item_returns(), $raw);
+        $this->assertSame($result['done'], false);
+    }
 }

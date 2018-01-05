@@ -36,4 +36,15 @@ $functions = [
         'loginrequired' => true,
         'ajax' => true,
     ],
+
+    'block_todo_toggle_item' => [
+        'classname' => 'block_todo\external\api',
+        'methodname' => 'toggle_item',
+        'classpath' => '',
+        'description' => 'Toggles the done status of the given item',
+        'type' => 'write',
+        'capabilities' => 'block/todo:myaddinstance',
+        'loginrequired' => true,
+        'ajax' => true,
+    ],
 ];
