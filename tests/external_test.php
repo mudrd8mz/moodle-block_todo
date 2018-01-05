@@ -103,4 +103,21 @@ class block_todo_external_testcase extends advanced_testcase {
         $result = external_api::clean_returnvalue(block_todo\external\api::toggle_item_returns(), $raw);
         $this->assertSame($result['done'], false);
     }
+
+    /**
+     * Test that the done status of an item can be deleted.
+     */
+    public function test_delete_item() {
+
+        $todotext = 'Write a unit test';
+        $raw = block_todo\external\api::add_item($todotext);
+        $result = external_api::clean_returnvalue(block_todo\external\api::add_item_returns(), $raw);
+        $itemid = $result['id'];
+        $this->assertTrue(block_todo\item::record_exists($itemid));
+
+        $raw = block_todo\external\api::delete_item($itemid);
+        $result = external_api::clean_returnvalue(block_todo\external\api::delete_item_returns(), $raw);
+        $this->assertSame($result, $itemid);
+        $this->assertFalse(block_todo\item::record_exists($itemid));
+    }
 }

@@ -47,4 +47,15 @@ $functions = [
         'loginrequired' => true,
         'ajax' => true,
     ],
+
+    'block_todo_delete_item' => [
+        'classname' => 'block_todo\external\api',
+        'methodname' => 'delete_item',
+        'classpath' => '',
+        'description' => 'Removes the given item from the todo list',
+        'type' => 'write',
+        'capabilities' => 'block/todo:myaddinstance',
+        'loginrequired' => true,
+        'ajax' => true,
+    ],
 ];

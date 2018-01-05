@@ -104,6 +104,13 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates'], function($, Log, A
             var id = $(e.currentTarget).attr('data-item');
             self.toggleItem(id);
         });
+
+        self.itemsList.on('click', '[data-control="delete"]', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var id = $(e.currentTarget).closest('[data-item]').attr('data-item');
+            self.deleteItem(id);
+        });
     };
 
     /**
@@ -179,6 +186,36 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates'], function($, Log, A
 
         }).then(function(item) {
             self.itemsList.find('[data-item="' + id + '"]').replaceWith(item);
+            return $.Deferred().resolve();
+        });
+    };
+
+    /**
+     * Delete the given item.
+     *
+     * @method
+     * @return {Deferred}
+     */
+    TodoControl.prototype.deleteItem = function (id) {
+        var self = this;
+
+        if (!id) {
+            return $.Deferred().resolve();
+        }
+
+        return Ajax.call([{
+            methodname: 'block_todo_delete_item',
+            args: {
+                id: id
+            }
+
+        }])[0].fail(function(reason) {
+            Log.error('block_todo/control: unable to delete the item');
+            Log.debug(reason);
+            return $.Deferred().reject();
+
+        }).then(function(deletedid) {
+            self.itemsList.find('[data-item="' + deletedid + '"]').remove();
             return $.Deferred().resolve();
         });
     };
