@@ -35,6 +35,19 @@ use core\external\exporter;
 class list_exporter extends exporter {
 
     /**
+     * Return the list of standard exported properties.
+     *
+     * @return array
+     */
+    protected static function define_properties() {
+        return [
+            'instanceid' => [
+                'type' => PARAM_INT,
+            ],
+        ];
+    }
+
+    /**
      * Return the list of additional properties.
      *
      * @return array

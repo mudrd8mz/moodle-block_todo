@@ -25,9 +25,13 @@
     * none
 
     Data attributes required for JS:
-    * data-delete-item - item id
+    * data-region="block_todo-instance-<instanceid>" - specifies the region wrapping all the contents
+    * data-item="<id>" - specifies the wraper of a single todo item
+    * data-control="addform" - specifies the form for adding a new todo item
+    * data-control="delete" - specifies the button for deleting an item
 
     Context variables required for this template:
+    * instanceid - block instance id
     * items
     ** items.id
     ** items.todotext
@@ -43,15 +47,23 @@
 
 }}
 
-<ul class="block_todo-items-list list-group unstyled">
-{{#items}}
-    <li data-delete-item="{{id}}" class="list-group-item {{#done}}text-muted muted{{/done}}" style="clear:both">
-        {{#done}} <i class="fa fa-check-square" aria-hidden="true"></i> {{/done}}
-        {{^done}} <i class="fa fa-square-o" aria-hidden="true"></i> {{/done}}
-        <span>{{todotext}}</span>
-        <button data-delete-item="{{id}}" type="button" class="close" aria-label="{{#str}} delete {{/str}}">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </li>
-{{/items}}
-</ul>
+<div data-region="block_todo-instance-{{instanceid}}">
+    <form data-control="addform">
+        <div class="input-group control-group">
+            <input class="form-control input-block-level" type="text" placeholder="{{#str}} placeholder, block_todo {{/str}}">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    {{#str}} add {{/str}}</button>
+            </span>
+        </div>
+    </form>
+
+    <hr>
+
+    <ul class="list-group unstyled">
+        {{#items}}
+            {{>block_todo/item}}
+        {{/items}}
+    </ul>
+</div>
