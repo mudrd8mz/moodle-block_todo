@@ -15,17 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * Provides {@link block_todo\external\api} class.
  *
  * @package     block_todo
+ * @category    external
  * @copyright   2018 David Mudrák <david@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_todo\external;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_todo';
-$plugin->release = '0.1.0';
-$plugin->version = 2018010500;
-$plugin->requires = 2017051500;
-$plugin->maturity = MATURITY_ALPHA;
+require_once($CFG->libdir.'/externallib.php');
+
+use external_api;
+
+/**
+ * Provides an external API of the block.
+ *
+ * Each external function is implemented in its own trait. This class
+ * aggregates them all.
+ *
+ * @copyright 2018 David Mudrák <david@moodle.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class api extends external_api {
+
+    use add_item;
+}

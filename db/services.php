@@ -15,17 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * Plugin external functions and services are defined here.
  *
  * @package     block_todo
+ * @category    external
  * @copyright   2018 David Mudrák <david@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_todo';
-$plugin->release = '0.1.0';
-$plugin->version = 2018010500;
-$plugin->requires = 2017051500;
-$plugin->maturity = MATURITY_ALPHA;
+$functions = [
+    'block_todo_add_item' => [
+        'classname' => 'block_todo\external\api',
+        'methodname' => 'add_item',
+        'classpath' => '',
+        'description' => 'Adds a new item to the user\'s todo list',
+        'type' => 'write',
+        'capabilities' => 'block/todo:myaddinstance',
+        'loginrequired' => true,
+        'ajax' => true,
+    ],
+];
