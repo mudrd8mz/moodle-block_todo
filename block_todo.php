@@ -22,6 +22,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * todo block.
  *
@@ -45,6 +47,7 @@ class block_todo extends block_base {
      * @return stdClass The block contents.
      */
     public function get_content() {
+        global $USER, $OUTPUT;
 
         if ($this->content !== null) {
             return $this->content;
@@ -56,16 +59,15 @@ class block_todo extends block_base {
         }
 
         $this->content = new stdClass();
-        $this->content->items = array();
-        $this->content->icons = array();
-        $this->content->footer = '';
 
-        if (!empty($this->config->text)) {
-            $this->content->text = $this->config->text;
-        } else {
-            $text = 'Please define the content text in /blocks/todo/block_todo.php.';
-            $this->content->text = $text;
-        }
+        // Load the list of persistent todo item models from the database.
+        $items = block_todo\item::get_records(['usermodified' => $USER->id], 'timecreated', 'DESC');
+
+        // Prepare the exporter of the todo items list.
+        $list = new block_todo\external\list_exporter([], ['items' => $items, 'context' => $this->context]);
+
+        // Render the list using a template and exported data.
+        $this->content->text = $OUTPUT->render_from_template('block_todo/content', $list->export($OUTPUT));
 
         return $this->content;
     }
