@@ -37,6 +37,17 @@ class item extends persistent {
     const TABLE = 'block_todo';
 
     /**
+     * Return todo items for the current user.
+     *
+     * @return array
+     */
+    public static function get_my_todo_items() {
+        global $USER;
+
+        return static::get_records(['usermodified' => $USER->id], 'timecreated', 'DESC');
+    }
+
+    /**
      * Return the definition of the properties of this model.
      *
      * @return array
