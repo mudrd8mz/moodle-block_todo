@@ -151,6 +151,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates'], function($, Log, A
             self.itemsList.prepend(item);
             self.addTextInput.val('');
             self.addTextInput.prop('disabled', false);
+            self.addTextInput.focus();
             return $.Deferred().resolve();
         });
     };
