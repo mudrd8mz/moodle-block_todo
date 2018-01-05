@@ -38,6 +38,9 @@ class block_todo_external_testcase extends advanced_testcase {
     /** @var stdClass */
     protected $user;
 
+    /** @var array */
+    protected $anotheruser;
+
     /**
      * Set up for every test
      */
@@ -47,6 +50,8 @@ class block_todo_external_testcase extends advanced_testcase {
 
         $this->user = self::getDataGenerator()->create_user();
         self::setUser($this->user);
+
+        $this->anotheruser = self::getDataGenerator()->create_user();
     }
 
     /**
@@ -105,6 +110,21 @@ class block_todo_external_testcase extends advanced_testcase {
     }
 
     /**
+     * Test that the done status can't be toggled by another user.
+     *
+     * @expectedException invalid_parameter_exception
+     */
+    public function test_toggle_item_by_another_user() {
+
+        $todotext = 'This is my todo!';
+        $raw = block_todo\external\api::add_item($todotext);
+        $result = external_api::clean_returnvalue(block_todo\external\api::add_item_returns(), $raw);
+
+        self::setUser($this->anotheruser);
+        block_todo\external\api::toggle_item($result['id']);
+    }
+
+    /**
      * Test that the done status of an item can be deleted.
      */
     public function test_delete_item() {
@@ -119,5 +139,20 @@ class block_todo_external_testcase extends advanced_testcase {
         $result = external_api::clean_returnvalue(block_todo\external\api::delete_item_returns(), $raw);
         $this->assertSame($result, $itemid);
         $this->assertFalse(block_todo\item::record_exists($itemid));
+    }
+
+    /**
+     * Test that the item can't be deleted by another user.
+     *
+     * @expectedException invalid_parameter_exception
+     */
+    public function test_delete_item_by_another_user() {
+
+        $todotext = 'This is not yours!';
+        $raw = block_todo\external\api::add_item($todotext);
+        $result = external_api::clean_returnvalue(block_todo\external\api::add_item_returns(), $raw);
+
+        self::setUser($this->anotheruser);
+        block_todo\external\api::delete_item($result['id']);
     }
 }

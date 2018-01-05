@@ -31,6 +31,7 @@ use block_todo\item;
 use context_user;
 use external_function_parameters;
 use external_value;
+use invalid_parameter_exception;
 
 require_once($CFG->libdir.'/externallib.php');
 
@@ -66,6 +67,11 @@ trait delete_item {
         $params = self::validate_parameters(self::delete_item_parameters(), compact('id'));
 
         $item = item::get_record(['usermodified' => $USER->id, 'id' => $id]);
+
+        if (!$item) {
+            throw new invalid_parameter_exception('Unable to find your todo item with that ID');
+        }
+
         $item->delete();
 
         return $id;
