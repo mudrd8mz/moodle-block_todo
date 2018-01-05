@@ -1,8 +1,16 @@
 # My ToDo list #
 
-TODO Describe the plugin shortly here.
+Simple plugin implementing a personal ToDo list on the user's Moodle dashboard.
 
-TODO Provide more detailed description here.
+The main purpose of this plugin is to demonstrate usage of advanced coding techniques
+available in recent Moodle versions. Most notably:
+
+* Rendering HTML output via Mustache templates.
+* AJAX based workflow of the elementary CRUD operations.
+* Organising JS into AMD modules.
+* Organising external functions into traits.
+* Low-level access to the database via persistent models.
+* Using exporters for handling the data structures in rendering and AJAX.
 
 ## License ##
 
