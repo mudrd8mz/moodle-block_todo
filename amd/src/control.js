@@ -25,7 +25,7 @@
 /**
  * @module block_todo/control
  */
-define(['jquery', 'core/log', 'core/ajax', 'core/templates'], function($, Log, Ajax, Templates) {
+define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/str'], function($, Log, Ajax, Templates, Str) {
     'use strict';
 
     /**
@@ -124,7 +124,10 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates'], function($, Log, A
         var text = $.trim(self.addTextInput.val());
 
         if (!text) {
-            return $.Deferred().resolve();
+            return Str.get_string('placeholdermore', 'block_todo').then(function(text) {
+                self.addTextInput.prop('placeholder', text);
+                return $.Deferred().resolve();
+            });
         }
 
         self.addTextInput.prop('disabled', true);

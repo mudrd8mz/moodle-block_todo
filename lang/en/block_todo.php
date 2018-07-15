@@ -26,5 +26,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['placeholder'] = 'What do you need to do?';
+$string['placeholdermore'] = 'Type something here and press the Add button';
 $string['pluginname'] = 'My ToDo list';
 $string['todo:myaddinstance'] = 'Add a new ToDo block to Dashboard';
